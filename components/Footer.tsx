@@ -1,18 +1,21 @@
 import React from 'react';
 import { InstagramIcon, TwitterIcon, FacebookIcon } from '../constants';
 
-interface FooterProps {
-  onNavigate: (page: string) => void;
-}
+const Footer: React.FC = () => {
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
-const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   return (
     <footer className="w-full max-w-4xl mx-auto py-12 px-4 mt-16 border-t border-white/10">
       <div className="flex flex-col items-center gap-8">
         <nav className="flex items-center gap-6 text-gray-300">
-          <button onClick={() => onNavigate('about')} className="hover:text-pink-300 transition-colors duration-300">About</button>
+          <button onClick={() => scrollToSection('about')} className="hover:text-pink-300 transition-colors duration-300">About</button>
           <span className="text-gray-600">|</span>
-          <button onClick={() => onNavigate('faq')} className="hover:text-pink-300 transition-colors duration-300">FAQ</button>
+          <button onClick={() => scrollToSection('faq')} className="hover:text-pink-300 transition-colors duration-300">FAQ</button>
           <span className="text-gray-600">|</span>
            <a href="#" className="hover:text-pink-300 transition-colors duration-300">Privacy Policy</a>
         </nav>

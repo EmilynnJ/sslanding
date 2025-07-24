@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { CrystalIcon } from '../constants';
-import { GoogleGenAI } from "@google/genai";
-import process from "process";
 
 const Hero: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -9,9 +7,23 @@ const Hero: React.FC = () => {
   const [message, setMessage] = useState('');
   const [isError, setIsError] = useState(false);
 
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  
+  const submitWaitlist = (email: string): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (Math.random() < 0.8) {
+          resolve("A mystical energy acknowledges your presence! Thank you for joining the waitlist.");
+        } else {
+          reject(new Error("Submission failed"));
+        }
+      }, 1500);
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) {
+    if (!email || !emailRegex.test(email)) {
       setMessage('Please enter a valid email address.');
       setIsError(true);
       return;
@@ -22,19 +34,11 @@ const Hero: React.FC = () => {
     setIsError(false);
 
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
-      const prompt = `Generate a short, mystical, and welcoming confirmation message for a user who just joined the waitlist for a spiritual guidance platform called "SoulSeer". Their email is ${email}. The tone should be magical and reassuring.`;
-      
-      const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
-        contents: prompt,
-      });
-
-      setMessage(response.text);
+      const responseMessage = await submitWaitlist(email);
+      setMessage(responseMessage);
       setEmail('');
-
     } catch (error) {
-      console.error("API Error:", error);
+      console.error("Waitlist submission error:", error);
       setMessage('A whisper was lost in the cosmos. Please try again.');
       setIsError(true);
     } finally {

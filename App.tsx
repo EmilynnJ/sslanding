@@ -1,31 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Sparkle from './components/Sparkle';
 import Home from './components/Home';
-import About from './components/About';
-import FAQ from './components/FAQ';
 
 const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState('home');
-
-  const handleNavigate = (page: string) => {
-    setCurrentPage(page);
-    window.scrollTo(0, 0); // Scroll to top on page change
-  };
-
-  const renderPage = () => {
-    switch (currentPage) {
-      case 'about':
-        return <About />;
-      case 'faq':
-        return <FAQ />;
-      case 'home':
-      default:
-        return <Home />;
-    }
-  };
-
   return (
     <div className="min-h-screen flex flex-col font-sans text-white relative isolate">
       {/* Sparkles in the background */}
@@ -36,11 +15,11 @@ const App: React.FC = () => {
       <Sparkle top="95%" left="10%" delay="1.5s" size="w-1 h-1" color="pink" />
       <Sparkle top="60%" left="70%" delay="2.5s" size="w-1.5 h-1.5" color="gold" />
 
-      <Header currentPage={currentPage} onNavigate={handleNavigate} />
+      <Header />
       <div className="flex-grow">
-        {renderPage()}
+        <Home />
       </div>
-      <Footer onNavigate={handleNavigate} />
+      <Footer />
     </div>
   );
 };
